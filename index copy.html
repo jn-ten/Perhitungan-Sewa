@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Penawaran Angsuran</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            margin: 0;
+            background-color: #f8f9fa;
+            color: #333;
+        }
+        h1 {
+            text-align: center;
+            color: #007BFF;
+        }
+        .input-container {
+            max-width: 500px;
+            margin: 0 auto 20px;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        .btn {
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+        .btn:hover {
+            background-color: #0056b3;
+        }
+        table {
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        th, td {
+            padding: 12px 15px;
+            text-align: right;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #007BFF;
+            color: white;
+            text-align: center;
+        }
+        td:first-child {
+            text-align: left;
+            font-weight: bold;
+        }
+        @media (max-width: 600px) {
+            .input-container, table {
+                width: 100%;
+                padding: 10px;
+                box-sizing: border-box;
+            }
+            input, select, .btn {
+                font-size: 16px;
+            }
+            th, td {
+                font-size: 14px;
+                padding: 10px;
+            }
+        }
+        .back-btn {
+            display: block;
+            max-width: 200px;
+            margin: 20px auto;
+            padding: 10px;
+            background-color: #6c757d;
+            color: white;
+            text-align: center;
+            border-radius: 4px;
+            text-decoration: none;
+        }
+        .back-btn:hover {
+            background-color: #5a6268;
+        }
+        .navbar {
+            background-color: #007BFF;
+            padding: 10px;
+            color: white;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .navbar img {
+            width: 50px;
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        .header {
+            text-align: center;
+            margin-top: 20px;
+            margin-bottom: 40px;
+            background: #ffffff;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .header h1 {
+            color: #007BFF;
+        }
+        .header h2 {
+            color: #ff8113;
+        }
+        .content {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        .btn {
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+            font-size: 16px;
+            text-decoration: none;
+            margin: 5px;
+            display: inline-block;
+        }
+        .btn:hover {
+            background-color: #0056b3;
+        }
+        .background-pattern {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('background-pattern.png');
+            background-size: cover;
+            background-repeat: no-repeat;
+            opacity: 0.1;
+            z-index: -1;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="navbar">
+        <img src="logobks copy.png" alt="Logo"> <!-- Ganti logo.png dengan file logo Anda -->
+        <h2>Perhitungan Penawaran Angsuran Alat</h2>
+    </div>
+    <div class="input-container">
+        <label for="hargaSatuan">Harga Satuan (Rp):</label>
+        <input type="number" id="hargaSatuan" placeholder="Masukkan harga satuan">
+
+        <label for="jumlahBarang">Jumlah Barang:</label>
+        <input type="number" id="jumlahBarang" placeholder="Masukkan jumlah barang">
+
+        <label for="jangkaWaktu">Jangka Waktu (bulan):</label>
+        <select id="jangkaWaktu">
+            <option value="12">12 Bulan</option>
+            <option value="24">24 Bulan</option>
+            <option value="36">36 Bulan</option>
+        </select>
+
+        <button class="btn" onclick="calculate()">Hitung</button>
+        <button class="btn" onclick="reset()">Reset</button>
+    </div>
+
+    <table id="tabelHasil">
+        <thead>
+            <tr>
+                <th>Deskripsi</th>
+                <th>Nilai (Rp)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Total Investasi</td>
+                <td id="totalInvestasi">-</td>
+            </tr>
+            <tr>
+                <td>Total Angsuran per Bulan</td>
+                <td id="totalAngsuranSebelumPPN">-</td>
+            </tr>
+            <tr>
+                <td>Total Angsuran per Bulan</td>
+                <td id="totalAngsuranSetelahPPN">-</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="login.html" class="back-btn">Kembali ke Halaman Utama</a>
+
+    <script>
+        function calculate() {
+            const hargaSatuan = parseFloat(document.getElementById('hargaSatuan').value) || 0;
+            const jumlahBarang = parseFloat(document.getElementById('jumlahBarang').value) || 0;
+            const jangkaWaktu = parseInt(document.getElementById('jangkaWaktu').value);
+
+            if (hargaSatuan <= 0 || jumlahBarang <= 0 || isNaN(jangkaWaktu)) {
+                alert('Harap masukkan nilai yang valid.');
+                return;
+            }
+
+            const totalInvestasi = hargaSatuan * jumlahBarang;
+            let bungaPerBulan = 0;
+
+            if (jangkaWaktu === 12) {
+                bungaPerBulan = 11.22 / 100 / 12;
+            } else if (jangkaWaktu === 24) {
+                bungaPerBulan = 12 / 100 / 12;
+            } else if (jangkaWaktu === 36) {
+                bungaPerBulan = 12.22 / 100 / 12;
+            }
+
+            const angsuranPokok = totalInvestasi / jangkaWaktu;
+            const angsuranBunga = totalInvestasi * bungaPerBulan;
+            const totalAngsuranSebelumPPN = angsuranPokok + angsuranBunga;
+            const totalAngsuranSetelahPPN = totalAngsuranSebelumPPN * 1.11;
+
+            document.getElementById('totalInvestasi').textContent = formatRupiah(totalInvestasi);
+            document.getElementById('totalAngsuranSebelumPPN').textContent = formatRupiah(totalAngsuranSebelumPPN);
+            document.getElementById('totalAngsuranSetelahPPN').textContent = formatRupiah(totalAngsuranSetelahPPN);
+        }
+
+        function reset() {
+            document.getElementById('hargaSatuan').value = '';
+            document.getElementById('jumlahBarang').value = '';
+            document.getElementById('jangkaWaktu').value = '12';
+            document.getElementById('totalInvestasi').textContent = '-';
+            document.getElementById('totalAngsuranSebelumPPN').textContent = '-';
+            document.getElementById('totalAngsuranSetelahPPN').textContent = '-';
+        }
+
+        function formatRupiah(number) {
+            return number.toLocaleString('id-ID', { style: 'currency', currency: 'IDR' });
+        }
+    </script>
+
+</body>
+</html>
